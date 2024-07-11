@@ -1,0 +1,17 @@
+{
+    "name": "gsazad/rupeestowords",
+    "description": "To converts a given number into words for Indian currency",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Gsazad\\Rupeestowords\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gurjeet Singh",
+            "email": "singh@gurjeet.co.in"
+        }
+    ],
+    "require": {}
+}

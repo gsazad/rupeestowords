@@ -1,4 +1,6 @@
 <?php
+namespace Gsazad\Rupeestowords;
+
 class Rupeestowords
 {
 

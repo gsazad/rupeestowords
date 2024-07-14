@@ -12,7 +12,9 @@ class Rupeestowords
             return $this->hi($num);
         } elseif ($lang == "pa") {
             return $this->pa($num);
-        } else {
+        }elseif ($lang == "gu") {
+            return $this->gu($num);
+        }else {
             return "Language not supported. Supported languages are en, hi, pi.";
         }
     }
@@ -178,6 +180,133 @@ class Rupeestowords
          return $hindi;
 
     }
+    private function gu($num){
+        $words = $this->en($num);
+        //gurjari
+        $en_hi_two = array(
+         'twenty one' => 'એકવીસ',
+         'twenty two' => 'બાવીસ',
+         'twenty three' => 'તેવીસ',
+         'twenty four' => 'ચોવીસ',
+         'twenty five' => 'પચ્ચીસ',
+         'twenty six' => 'છવીસ',
+         'twenty seven' => 'સત્તાવીસ',
+         'twenty eight' => 'અઠ્ઠાવીસ',
+         'twenty nine' => 'ઓગણત્રીસ',
+         'thirty one' => 'એકત્રીસ',
+         'thirty two' => 'બત્રીસ',
+         'thirty three' => 'તેત્રીસ',
+         'thirty four' => 'ચોત્રીસ',
+         'thirty five' => 'પાંત્રીસ',
+         'thirty six' => 'છત્રીસ',
+         'thirty seven' => 'સડત્રીસ',
+         'thirty eight' => 'અડત્રીસ',
+         'thirty nine' => 'ઓગણચાલીસ',
+         'forty one' => 'એકચાલીસ',
+         'forty two' => 'બેતાલીસ',
+         'forty three' => 'ત્રેચાલીસ',
+         'forty four' => 'ચુવાલીસ',
+         'forty five' => 'પિસ્તાલીસ',
+         'forty six' => 'છેતાલીસ',
+         'forty seven' => 'સુડતાલીસ',
+         'forty eight' => 'અડતાલીસ',
+         'forty nine' => 'ઓગણપચાસ',
+         'fifty one' => 'એકપચાસ',
+         'fifty two' => 'બાવન',
+         'fifty three' => 'ત્રેપન',
+         'fifty four' => 'ચોપન',
+         'fifty five' => 'પંચાવન',
+         'fifty six' => 'છપ્પન',
+         'fifty seven' => 'સત્તાવન',
+         'fifty eight' => 'અઠ્ઠાવન',
+         'fifty nine' => 'ઓગણસાઠ',
+         'sixty one' => 'એકસઠ',
+         'sixty two' => 'બાસઠ',
+         'sixty three' => 'ત્રેસઠ',
+         'sixty four' => 'ચોસઠ',
+         'sixty five' => 'પાંસઠ',
+         'sixty six' => 'છાસઠ',
+         'sixty seven' => 'સડસઠ',
+         'sixty eight' => 'અડસઠ',
+         'sixty nine' => 'અગણોસિત્તેર',
+         'seventy one' => 'એકોતેર',
+         'seventy two' => 'બોતેર',
+         'seventy three' => 'તોતેર',
+         'seventy four' => 'ચુમોતેર',
+         'seventy five' => 'પંચોતેર',
+         'seventy six' => 'છોતેર',
+         'seventy seven' => 'સિત્યોતેર',
+         'seventy eight' => 'ઇઠ્યોતેર',
+         'seventy nine' => 'ઓગણાએંસી',
+         'eighty one' => 'એક્યાસી',
+         'eighty two' => 'બ્યાસી',
+         'eighty three' => 'ત્યાસી',
+         'eighty four' => 'ચોર્યાસી',
+         'eighty five' => 'પંચાસી',
+         'eighty six' => 'છ્યાસી',
+         'eighty seven' => 'સિત્યાસી',
+         'eighty eight' => 'ઇઠ્યાસી',
+         'eighty nine' => 'નેવ્યાસી',
+         'ninety one' => 'એકાણું',
+         'ninety two' => 'બાણું',
+         'ninety three' => 'ત્રાણું',
+         'ninety four' => 'ચોરાણું',
+         'ninety five' => 'પંચાણું',
+         'ninety six' => 'છન્નું',
+         'ninety seven' => 'સત્તાણું',
+         'ninety eight' => 'અઠ્ઠાણું',
+         'ninety nine' => 'નવ્વાણું',
+        );
+ 
+        $en_hi_one = array(
+         'zero' => 'શૂન્ય',
+         'one' => 'એક',
+         'two' => 'બે',
+         'three' => 'ત્રણ',
+         'four' => 'ચાર',
+         'five' => 'પાંચ',
+         'six' => 'છ',
+         'seven' => 'સાત',
+         'eight' => 'આઠ',
+         'nine' => 'નવ',
+         'ten' => 'દસ',
+         'eleven' => 'અગિયાર',
+         'twelve' => 'બાર',
+         'thirteen' => 'તેર',
+         'fourteen' => 'ચૌદ',
+         'fifteen' => 'પંદર',
+         'sixteen' => 'સોળ',
+         'seventeen' => 'સત્તર',
+         'eighteen' => 'અઢાર',
+         'nineteen' => 'ઓગણિસ',
+         'twenty' => 'વીસ',
+         'thirty' => 'ત્રીસ',
+         'forty' => 'ચાલીસ',
+         'fifty' => 'પચાસ',
+         'sixty' => 'સાઈઠ',
+         'seventy' => 'સિત્તેર',
+         'eighty' => 'એંસી',
+         'ninety' => 'નેવું',
+         'hundred' => 'સો',
+         'thousand' => 'હજાર',
+         'lakh' => 'લાખ',
+         'lakhs' => 'લાખ',
+         'crore' => 'કરોડ',
+         'crores' => 'કરોડ',
+         'and' => 'અને',
+         'rupees' => 'રૂપિયા',
+         'rupee' => 'રૂપિયો',
+         'paise' => 'પૈસા',
+         'paisa'=> 'પૈસા',
+         '&amp;' => 'અને'
+        );
+        $gujrati= strtr($words, $en_hi_two);
+          $gujrati = strtr($gujrati, $en_hi_one);
+ 
+          return $gujrati;
+ 
+     }
+
     private function pa($num){
         //punjabi
         $words = $this->en($num);

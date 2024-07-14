@@ -10,271 +10,362 @@ class Rupeestowords
             return $this->en($num);
         } elseif ($lang == "hi") {
             return $this->hi($num);
-        } elseif ($lang == "pi") {
-            return $this->pi($num);
+        } elseif ($lang == "pa") {
+            return $this->pa($num);
         } else {
             return "Language not supported. Supported languages are en, hi, pi.";
         }
     }
-
-    private function en($num)
-    {
-        $ones = array(
-            0 => "",
-            1 => "One",
-            2 => "Two",
-            3 => "Three",
-            4 => "Four",
-            5 => "Five",
-            6 => "Six",
-            7 => "Seven",
-            8 => "Eight",
-            9 => "Nine",
-            10 => "Ten",
-            11 => "Eleven",
-            12 => "Twelve",
-            13 => "Thirteen",
-            14 => "Fourteen",
-            15 => "Fifteen",
-            16 => "Sixteen",
-            17 => "Seventeen",
-            18 => "Eighteen",
-            19 => "Nineteen"
-        );
-
-        $tens = array(
-            0 => "",
-            1 => "",
-            2 => "Twenty",
-            3 => "Thirty",
-            4 => "Forty",
-            5 => "Fifty",
-            6 => "Sixty",
-            7 => "Seventy",
-            8 => "Eighty",
-            9 => "Ninety"
-        );
-
-        $hundreds = array(
-            "Hundred",
-            "Thousand",
-            "Lakh",
-            "Crore"
-        );
+    private function en($num){
+        if($num == null || !is_numeric($num)){
+            return "Please enter a valid number";
+        }
+        if($num == 0){
+            return strtolower("Zero Rupees");
+        }
+        if($num > 999999999){
+            return "Sorry This does not support more than 999999999 Rupees";
+        }
+        if($num < 0){
+            return "Negative Rupees not supported";
+        }
+        
 
         $num = number_format($num, 2, ".", "");
         $num_arr = explode(".", $num);
         $whole_number = $num_arr[0];
         $decimal_number = $num_arr[1];
-
-        $whole_number_arr = array_reverse(str_split($whole_number));
-        $words = "";
-        $place = 0;
-
-        foreach ($whole_number_arr as $key => $digit) {
-            if ($key % 2 == 0) {
-                if ($key == 0) {
-                    if ($digit != 0) {
-                        $words = $ones[$digit] . " " . $words;
-                    }
-                } else {
-                    if ($digit != 0) {
-                        $words = $ones[$digit] . " " . $hundreds[$place] . " " . $words;
-                    }
-                    $place++;
-                }
-            } else {
-                if ($digit != 0) {
-                    if ($whole_number_arr[$key - 1] != 0) {
-                        $words = $tens[$digit] . " " . $words;
-                    } else {
-                        $words = $ones[$digit * 10] . " " . $words;
-                    }
-                }
-            }
+        if(strlen($decimal_number) == 1){
+            $decimal_number = $decimal_number . "0";
         }
-
-        $words = trim(preg_replace('/\s+/', ' ', $words));
-
-        if ($decimal_number != "00") {
-            $paise_words = $ones[$decimal_number[0]] . " " . $tens[$decimal_number[1]] . " Paise";
-            $words .= " and " . trim(preg_replace('/\s+/', ' ', $paise_words));
+        $end_rupees = " Rupees";
+        if($whole_number == 1){
+            $end_rupees = " Rupee";
         }
+        $end_paise = " Paise";
+        if($decimal_number == 1){
+            $end_paise = " Paisa";
+        }
+        if($decimal_number != "00"){
+            return strtolower($this->numberToWordsRupees($whole_number) . " $end_rupees and " . $this->numberToWordsRupees($decimal_number) . $end_paise);
+        }
+        
 
-        return $words ? $words . " Rupees" : "Zero Rupees";
+        return strtolower($this->numberToWordsRupees($whole_number). $end_rupees);
     }
+    private function hi($num){
+       $words = $this->en($num);
+       $en_hi_two = array(
+        'twenty one' => 'इक्कीस',
+        'twenty two' => 'बाईस',
+        'twenty three' => 'तेईस',
+        'twenty four' => 'चौबीस',
+        'twenty five' => 'पच्चीस',
+        'twenty six' => 'छब्बीस',
+        'twenty seven' => 'सत्ताईस',
+        'twenty eight' => 'अट्ठाईस',
+        'twenty nine' => 'उनतीस',
+        'thirty one' => 'इकतीस',
+        'thirty two' => 'बत्तीस',
+        'thirty three' => 'तैंतीस',
+        'thirty four' => 'चौंतीस',
+        'thirty five' => 'पैंतीस',
+        'thirty six' => 'छत्तीस',
+        'thirty seven' => 'सैंतीस',
+        'thirty eight' => 'अड़तीस',
+        'thirty nine' => 'उनतालीस',
+        'forty one' => 'इकतालीस',
+        'forty two' => 'बयालीस',
+        'forty three' => 'तैंतालीस',
+        'forty four' => 'चौवालीस',
+        'forty five' => 'पैंतालीस',
+        'forty six' => 'छियालीस',
+        'forty seven' => 'सैंतालीस',
+        'forty eight' => 'अड़तालीस',
+        'forty nine' => 'उनचास',
+        'fifty one' => 'इक्यावन',
+        'fifty two' => 'बावन',
+        'fifty three' => 'तिरपन',
+        'fifty four' => 'चौवन',
+        'fifty five' => 'पचपन',
+        'fifty six' => 'छप्पन',
+        'fifty seven' => 'सत्तावन',
+        'fifty eight' => 'अट्ठावन',
+        'fifty nine' => 'उनसठ',
+        'sixty one' => 'इकसठ',
+        'sixty two' => 'बासठ',
+        'sixty three' => 'तिरसठ',
+        'sixty four' => 'चौंसठ',
+        'sixty five' => 'पैंसठ',
+        'sixty six' => 'छियासठ',
+        'sixty seven' => 'सड़सठ',
+        'sixty eight' => 'अड़सठ',
+        'sixty nine' => 'उनहत्तर',
+        'seventy one' => 'इकहत्तर',
+        'seventy two' => 'बहत्तर',
+        'seventy three' => 'तिहत्तर',
+        'seventy four' => 'चौहत्तर',
+        'seventy five' => 'पचहत्तर',
+        'seventy six' => 'छिहत्तर',
+        'seventy seven' => 'सतहत्तर',
+        'seventy eight' => 'अठहत्तर',
+        'seventy nine' => 'उनासी',
+        'eighty one' => 'इक्यासी',
+        'eighty two' => 'बयासी',
+        'eighty three' => 'तिरासी',
+        'eighty four' => 'चौरासी',
+        'eighty five' => 'पचासी',
+        'eighty six' => 'छियासी',
+        'eighty seven' => 'सतासी',
+        'eighty eight' => 'अट्ठासी',
+        'eighty nine' => 'नवासी',
+        'ninety one' => 'इक्यानवे',
+        'ninety two' => 'बानवे',
+        'ninety three' => 'तिरानवे',
+        'ninety four' => 'चौरानवे',
+        'ninety five' => 'पचानवे',
+        'ninety six' => 'छियानवे',
+        'ninety seven' => 'सत्तानवे',
+        'ninety eight' => 'अट्ठानवे',
+        'ninety nine' => 'निन्यानवे',
+       );
 
-    private function hi($num)
-    {
-        $ones = array(
-            0 => "",
-            1 => "एक",
-            2 => "दो",
-            3 => "तीन",
-            4 => "चार",
-            5 => "पाँच",
-            6 => "छह",
-            7 => "सात",
-            8 => "आठ",
-            9 => "नौ",
-            10 => "दस",
-            11 => "ग्यारह",
-            12 => "बारह",
-            13 => "तेरह",
-            14 => "चौदह",
-            15 => "पंद्रह",
-            16 => "सोलह",
-            17 => "सत्रह",
-            18 => "अठारह",
-            19 => "उन्नीस"
-        );
+       $en_hi_one = array(
+        'zero' => 'शून्य',
+        'one' => 'एक',
+        'two' => 'दो',
+        'three' => 'तीन',
+        'four' => 'चार',
+        'five' => 'पांच',
+        'six' => 'छह',
+        'seven' => 'सात',
+        'eight' => 'आठ',
+        'nine' => 'नौ',
+        'ten' => 'दस',
+        'eleven' => 'ग्यारह',
+        'twelve' => 'बारह',
+        'thirteen' => 'तेरह',
+        'fourteen' => 'चौदह',
+        'fifteen' => 'पंद्रह',
+        'sixteen' => 'सोलह',
+        'seventeen' => 'सत्रह',
+        'eighteen' => 'अठारह',
+        'nineteen' => 'उन्नीस',
+        'twenty' => 'बीस',
+        'thirty' => 'तीस',
+        'forty' => 'चालीस',
+        'fifty' => 'पचास',
+        'sixty' => 'साठ',
+        'seventy' => 'सत्तर',
+        'eighty' => 'अस्सी',
+        'ninety' => 'नब्बे',
+        'hundred' => 'सौ',
+        'thousand' => 'हजार',
+        'lakh' => 'लाख',
+        'lakhs' => 'लाख',
+        'crore' => 'करोड़',
+        'and' => 'और',
+        'rupees' => 'रुपये',
+        'rupee' => 'रुपया',
+        'paise' => 'पैसे',
+        'paisa'=> 'पैसा',
+        '&amp;' => 'और'
+       );
+       $hindi = strtr($words, $en_hi_two);
+         $hindi = strtr($hindi, $en_hi_one);
 
-        $tens = array(
-            0 => "",
-            1 => "",
-            2 => "बीस",
-            3 => "तीस",
-            4 => "चालीस",
-            5 => "पचास",
-            6 => "साठ",
-            7 => "सत्तर",
-            8 => "अस्सी",
-            9 => "नब्बे"
-        );
+         return $hindi;
 
-        $hundreds = array(
-            "सौ",
-            "हज़ार",
-            "लाख",
-            "करोड़"
-        );
-
-        $num = number_format($num, 2, ".", "");
-        $num_arr = explode(".", $num);
-        $whole_number = $num_arr[0];
-        $decimal_number = $num_arr[1];
-
-        $whole_number_arr = array_reverse(str_split($whole_number));
-        $words = "";
-        $place = 0;
-
-        foreach ($whole_number_arr as $key => $digit) {
-            if ($key % 2 == 0) {
-                if ($key == 0) {
-                    if ($digit != 0) {
-                        $words = $ones[$digit] . " " . $words;
-                    }
-                } else {
-                    if ($digit != 0) {
-                        $words = $ones[$digit] . " " . $hundreds[$place] . " " . $words;
-                    }
-                    $place++;
-                }
-            } else {
-                if ($digit != 0) {
-                    if ($whole_number_arr[$key - 1] != 0) {
-                        $words = $tens[$digit] . " " . $words;
-                    } else {
-                        $words = $ones[$digit * 10] . " " . $words;
-                    }
-                }
-            }
-        }
-
-        $words = trim(preg_replace('/\s+/', ' ', $words));
-
-        if ($decimal_number != "00") {
-            $paise_words = $ones[$decimal_number[0]] . " " . $tens[$decimal_number[1]] . " पैसे";
-            $words .= " और " . trim(preg_replace('/\s+/', ' ', $paise_words));
-        }
-
-        return $words ? $words . " रुपये" : "शून्य रुपये";
     }
-
-    private function pi($num)
-    {
-        $ones = array(
-            0 => "",
-            1 => "ਇੱਕ",
-            2 => "ਦੋ",
-            3 => "ਤਿੰਨ",
-            4 => "ਚਾਰ",
-            5 => "ਪੰਜ",
-            6 => "ਛੇ",
-            7 => "ਸੱਤ",
-            8 => "ਅੱਠ",
-            9 => "ਨੌ",
-            10 => "ਦਸ",
-            11 => "ਗਿਆਰਾਂ",
-            12 => "ਬਾਰਾਂ",
-            13 => "ਤੇਰਾਂ",
-            14 => "ਚੌਦਾਂ",
-            15 => "ਪੰਦਰਾਂ",
-            16 => "ਸੋਲਾਂ",
-            17 => "ਸਤਾਰਾਂ",
-            18 => "ਅਠਾਰਾਂ",
-            19 => "ਉਨਨੀ"
+    private function pa($num){
+        //punjabi
+        $words = $this->en($num);
+        $en_two = array(
+         'twenty one' => 'ਇਕੀ',
+         'twenty two' => 'ਬਾਈ',
+         'twenty three' => 'ਤੇਈ',
+         'twenty four' => 'ਚੌਵੀ',
+         'twenty five' => 'ਪੱਚੀ',
+         'twenty six' => 'ਛੱਬੀ',
+         'twenty seven' => 'ਸਤਾਈ',
+         'twenty eight' => 'ਅਠਾਈ',
+         'twenty nine' => 'ਉਨੱਤੀ',
+         'thirty one' => 'ਇਕੱਤੀ',
+         'thirty two' => 'ਬੱਤੀ',
+         'thirty three' => 'ਤੇਤੀ',
+         'thirty four' => 'ਚੌਂਤੀ',
+         'thirty five' => 'ਪੈਂਤੀ',
+         'thirty six' => 'ਛੱਤੀ',
+         'thirty seven' => 'ਸੈਂਤੀ',
+         'thirty eight' => 'ਅਠੱਤੀ',
+         'thirty nine' => 'ਉਨਤਾਲੀ',
+         'forty one' => 'ਇਕਤਾਲੀ',
+         'forty two' => 'ਬਤਾਲੀ',
+         'forty three' => 'ਤਿਰਤਾਲੀ',
+         'forty four' => 'ਚੌਤਾਲੀ',
+         'forty five' => 'ਪੰਜਤਾਲੀ',
+         'forty six' => 'ਛਿਆਲੀ',
+         'forty seven' => 'ਸੰਤਾਲੀ',
+         'forty eight' => 'ਅੱਠਤਾਲੀ',
+         'forty nine' => 'ਉਣਿੰਜਾ',
+         'fifty one' => 'ਇਕਵੰਜਾ',
+         'fifty two' => 'ਬਵਿੰਜਾ',
+         'fifty three' => 'ਤਰਵਿੰਜਾ',
+         'fifty four' => 'ਚਰਿੰਜਾ',
+         'fifty five' => 'ਪਚਵਿੰਜਾ',
+         'fifty six' => 'ਛਪਿੰਜਾ',
+         'fifty seven' => 'ਸਤਵਿੰਜਾ',
+         'fifty eight' => 'ਅੱਠਵਿੰਜਾ',
+         'fifty nine' => 'ਉਣਾਠ',
+         'sixty one' => 'ਇਕਾਠ',
+         'sixty two' => 'ਬਾਠ੍ਹ',
+         'sixty three' => 'ਤਰੇਠ੍ਹ',
+         'sixty four' => 'ਚੌਠ੍ਹ',
+         'sixty five' => 'ਪੈਂਠ',
+         'sixty six' => 'ਛਿਆਠ',
+         'sixty seven' => 'ਸਤਾਹਠ',
+         'sixty eight' => 'ਅਠਾਹਠ',
+         'sixty nine' => 'ਉਣੱਤਰ',
+         'seventy one' => 'ਇਕ੍ਹੱਤਰ',
+         'seventy two' => 'ਬਹੱਤਰ',
+         'seventy three' => 'ਤਹੱਤਰ',
+         'seventy four' => 'ਚੌਹੱਤਰ',
+         'seventy five' => 'ਪੰਜੱਤਰ',
+         'seventy six' => 'ਛਿਹੱਤਰ',
+         'seventy seven' => 'ਸਤੱਤਰ',
+         'seventy eight' => 'ਅਠੱਤਰ',
+         'seventy nine' => 'ਉਣਾਸੀ',
+         'eighty one' => 'ਇਕਾਸੀ',
+         'eighty two' => 'ਬਿਆਸੀ',
+         'eighty three' => 'ਤਰਾਸੀ',
+         'eighty four' => 'ਚੁਰਾਸੀ',
+         'eighty five' => 'ਪਚਾਸੀ',
+         'eighty six' => 'ਛਿਆਸੀ',
+         'eighty seven' => 'ਸਤਾਸੀ',
+         'eighty eight' => 'ਅਠਾਸੀ',
+         'eighty nine' => 'ਉਣਾਨਵੇਂ',
+         'ninety one' => 'ਇਕਾਨਵੇਂ',
+         'ninety two' => 'ਬਿਆਨਵੇਂ',
+         'ninety three' => 'ਤਰਾਨਵੇਂ',
+         'ninety four' => 'ਚਰਾਨਵੇਂ',
+         'ninety five' => 'ਪਚਾਨਵੇਂ',
+         'ninety six' => 'ਛਿਆਨਵੇਂ',
+         'ninety seven' => 'ਸਤਾਨਵੇਂ',
+         'ninety eight' => 'ਅਠਾਨਵੇਂ',
+         'ninety nine' => 'ਨਿੜਾਨਵੇਂ',
         );
-
-        $tens = array(
-            0 => "",
-            1 => "",
-            2 => "ਵੀਹ",
-            3 => "ਤੀਹ",
-            4 => "ਚਾਲੀ",
-            5 => "ਪੰਜਾਹ",
-            6 => "ਸਾਠ",
-            7 => "ਸਤੱਤਰ",
-            8 => "ਅੱਸੀ",
-            9 => "ਨੱਬੇ"
+ 
+        $en_one = array(
+         'zero' => 'ਸਿਫਰ',
+         'one' => 'ਇੱਕ',
+         'two' => 'ਦੋ',
+         'three' => 'ਤਿੰਨ',
+         'four' => 'ਚਾਰ',
+         'five' => 'ਪੰਜ',
+         'six' => 'ਛੇ',
+         'seven' => 'ਸੱਤ',
+         'eight' => 'ਅੱਠ',
+         'nine' => 'ਨੌਂ',
+         'ten' => 'ਦਸ',
+         'eleven' => 'ਗਿਆਰਾਂ',
+         'twelve' => 'ਬਾਰਾਂ',
+         'thirteen' => 'ਤੇਰਾਂ',
+         'fourteen' => 'ਚੌਦਾਂ',
+         'fifteen' => 'ਪੰਦਰਾਂ',
+         'sixteen' => 'ਸੌਲਾਂ',
+         'seventeen' => 'ਸਤਾਰਾਂ',
+         'eighteen' => 'ਅਠਾਰਾਂ',
+         'nineteen' => 'ਉਨੀ',
+         'twenty' => 'ਵੀਹ',
+         'thirty' => 'ਤੀਹ',
+         'forty' => 'ਚਾਲੀ',
+         'fifty' => 'ਪੰਜਾਹ',
+         'sixty' => 'ਸੱਠ',
+         'seventy' => 'ਸੱਤਰ',
+         'eighty' => 'ਅੱਸੀ',
+         'ninety' => 'ਨੱਬੇ',
+         'hundred' => 'ਸੌ',
+         'thousand' => 'ਹਜ਼ਾਰ',
+         'lakh' => 'ਲੱਖ',
+         'lakhs' => 'ਲੱਖ',
+         'crore' => 'ਕਰੋੜ',
+         'and' => 'ਅਤੇ',
+         'rupees' => 'ਰੁਪਏ',
+         'rupee' => 'ਰੁਪਿਆ',
+         'paise' => 'ਪੈਸੇ',
+            'paisa'=> 'ਪੈਸਾ',
+         '&amp;' => 'ਅਤੇ'
         );
+        $words = strtr($words, $en_two);
+          $words = strtr($words, $en_one);
+ 
+          return $words;
+ 
+     }
+ 
 
-        $hundreds = array(
-            "ਸੌ",
-            "ਹਜ਼ਾਰ",
-            "ਲੱਖ",
-            "ਕਰੋੜ"
-        );
 
-        $num = number_format($num, 2, ".", "");
-        $num_arr = explode(".", $num);
-        $whole_number = $num_arr[0];
-        $decimal_number = $num_arr[1];
 
-        $whole_number_arr = array_reverse(str_split($whole_number));
-        $words = "";
-        $place = 0;
 
-        foreach ($whole_number_arr as $key => $digit) {
-            if ($key % 2 == 0) {
-                if ($key == 0) {
-                    if ($digit != 0) {
-                        $words = $ones[$digit] . " " . $words;
-                    }
-                } else {
-                    if ($digit != 0) {
-                        $words = $ones[$digit] . " " . $hundreds[$place] . " " . $words;
-                    }
-                    $place++;
+    private function numberToWordsRupees($number){
+        //A function to convert numbers into Indian readable words with Cores, Lakhs and Thousands.
+        $words = array(
+        '0'=> '' ,'1'=> 'one' ,'2'=> 'two' ,'3' => 'three','4' => 'four','5' => 'five',
+        '6' => 'six','7' => 'seven','8' => 'eight','9' => 'nine','10' => 'ten',
+        '11' => 'eleven','12' => 'twelve','13' => 'thirteen','14' => 'fouteen','15' => 'fifteen',
+        '16' => 'sixteen','17' => 'seventeen','18' => 'eighteen','19' => 'nineteen','20' => 'twenty',
+        '30' => 'thirty','40' => 'fourty','50' => 'fifty','60' => 'sixty','70' => 'seventy',
+        '80' => 'eighty','90' => 'ninty');
+        
+        //First find the length of the number
+        $number_length = strlen($number);
+        //Initialize an empty array
+        $number_array = array(0,0,0,0,0,0,0,0,0);        
+        $received_number_array = array();
+        
+        //Store all received numbers into an array
+        for($i=0;$i<$number_length;$i++){    
+              $received_number_array[$i] = substr($number,$i,1);    
+          }
+    
+        //Populate the empty array with the numbers received - most critical operation
+        for($i=9-$number_length,$j=0;$i<9;$i++,$j++){ 
+            $number_array[$i] = $received_number_array[$j]; 
+        }
+    
+        $number_to_words_string = "";
+        //Finding out whether it is teen ? and then multiply by 10, example 17 is seventeen, so if 1 is preceeded with 7 multiply 1 by 10 and add 7 to it.
+        for($i=0,$j=1;$i<9;$i++,$j++){
+            //"01,23,45,6,78"
+            //"00,10,06,7,42"
+            //"00,01,90,0,00"
+            if($i==0 || $i==2 || $i==4 || $i==7){
+                if($number_array[$j]==0 || $number_array[$i] == "1"){
+                    $number_array[$j] = intval($number_array[$i])*10+$number_array[$j];
+                    $number_array[$i] = 0;
                 }
-            } else {
-                if ($digit != 0) {
-                    if ($whole_number_arr[$key - 1] != 0) {
-                        $words = $tens[$digit] . " " . $words;
-                    } else {
-                        $words = $ones[$digit * 10] . " " . $words;
-                    }
-                }
+                   
             }
         }
-
-        $words = trim(preg_replace('/\s+/', ' ', $words));
-
-        if ($decimal_number != "00") {
-            $paise_words = $ones[$decimal_number[0]] . " " . $tens[$decimal_number[1]] . " ਪੈਸੇ";
-            $words .= " ਅਤੇ " . trim(preg_replace('/\s+/', ' ', $paise_words));
+    
+        $value = "";
+        for($i=0;$i<9;$i++){
+            if($i==0 || $i==2 || $i==4 || $i==7){    
+                $value = $number_array[$i]*10; 
+            }
+            else{ 
+                $value = $number_array[$i];    
+            }            
+            if($value!=0)         {    $number_to_words_string.= $words["$value"]." "; }
+            if($i==1 && $value!=0){    $number_to_words_string.= "Crores "; }
+            if($i==3 && $value!=0){    $number_to_words_string.= "Lakhs ";    }
+            if($i==5 && $value!=0){    $number_to_words_string.= "Thousand "; }
+            if($i==6 && $value!=0){    $number_to_words_string.= "Hundred "; }            
+    
         }
-
-        return $words ? $words . " ਰੁਪਏ" : "ਸ਼ੂਨਿਆ ਰੁਪਏ";
+        if($number_length>9){
+            $number_to_words_string = "Sorry This does not support more than 99 Crores";
+        }
+        return ucwords(strtolower($number_to_words_string));
     }
 }

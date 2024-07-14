@@ -13,6 +13,7 @@ Install the package via Composer:
 
 ```bash
 composer require gsazad/rupeestowords
+```
 
 
 ## Supported Languages

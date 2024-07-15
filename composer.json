@@ -1,7 +1,9 @@
 {
     "name": "gsazad/rupeestowords",
-    "description": "To converts a given number into words for Indian currency",
+    "description": "This PHP library provides functionality to convert a given number into words for Indian currency in multiple Indian languages, including English, Hindi, Punjabi, Gujarati, and more.",
     "type": "library",
+    "license": "MIT",
+    "keywords": ["rupees", "words", "currency", "indian","hindi","punjabi","gujrati","english"],
     "autoload": {
         "psr-4": {
             "Gsazad\\Rupeestowords\\": "src/"

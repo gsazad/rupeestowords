@@ -6,6 +6,7 @@ class Rupeestowords
 
     public function convert($num, $lang = "en")
     {
+        $lang = strtolower($lang);
         if ($lang == "en") {
             return $this->en($num);
         } elseif ($lang == "hi") {
